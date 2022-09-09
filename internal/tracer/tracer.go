@@ -1,13 +1,12 @@
 package tracer
 
 import (
+	"github.com/opentracing/opentracing-go"
+	"github.com/uber/jaeger-client-go"
 	"io"
 
-	"github.com/opentracing/opentracing-go"
+	"github.com/alexeykirinyuk/go-product-api/internal/config"
 	"github.com/rs/zerolog/log"
-	"github.com/uber/jaeger-client-go"
-
-	"github.com/ozonmp/omp-template-api/internal/config"
 
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 )

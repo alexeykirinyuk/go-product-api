@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package ozonmp.go_product_api.v1;
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api;go_product_api";
+
+service GoProductApiService {
+  rpc DescribeProductV1(DescribeProductV1Request) returns (DescribeProductV1Response) {
+    option (google.api.http) = {
+      post: "/v1/products/get",
+      body: "*"
+    };
+  }
+
+  rpc CreateProductV1(CreateProductV1Request) returns (CreateProductV1Response) {
+    option (google.api.http) = {
+      post: "/v1/products/create",
+      body: "*"
+    };
+  }
+
+  rpc ListProductsV1(ListProductsV1Request) returns (ListProductsV1Response) {
+    option (google.api.http) = {
+      post: "/v1/products/list",
+      body: "*"
+    };
+  }
+
+  rpc RemoveProductV1(RemoveProductV1Request) returns (RemoveProductV1Response) {
+    option (google.api.http) = {
+      post: "/v1/products/remove",
+      body: "*"
+    };
+  }
+}
+
+message CreateProductV1Request {
+  string name = 1 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string category = 2 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string description = 3 [(validate.rules).string = {min_len: 1, max_len: 1000}];
+  string brand = 4 [(validate.rules).string = {min_len: 1, max_len: 50}];
+  float cost = 5 [(validate.rules).float.gt = 0];
+  Currency currency = 6 [(validate.rules).enum = {not_in: [0]}];
+}
+
+message CreateProductV1Response {
+  Product product = 1;
+}
+
+
+message DescribeProductV1Request {
+  uint64 product_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message DescribeProductV1Response {
+  Product product = 1;
+}
+
+message ListProductsV1Request {
+}
+
+message ListProductsV1Response {
+  repeated Product products = 1;
+}
+
+message RemoveProductV1Request {
+  uint64 product_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message RemoveProductV1Response {
+  Product product = 1;
+}
+
+message Product {
+  uint64 id = 1;
+  string name = 2;
+  string category = 3;
+  string description = 4;
+  string brand = 5;
+  float cost = 6;
+  Currency currency = 7;
+  google.protobuf.Timestamp created = 8;
+}
+
+enum Currency {
+  CURRENCY_UNKNOWN = 0;
+  CURRENCY_RUB = 1;
+  CURRENCY_USD = 2;
+}

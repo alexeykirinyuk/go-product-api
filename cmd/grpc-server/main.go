@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/pressly/goose"
 
-	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
@@ -12,10 +12,10 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 	_ "github.com/lib/pq"
 
-	"github.com/ozonmp/omp-template-api/internal/config"
-	"github.com/ozonmp/omp-template-api/internal/database"
-	"github.com/ozonmp/omp-template-api/internal/server"
-	"github.com/ozonmp/omp-template-api/internal/tracer"
+	"github.com/alexeykirinyuk/go-product-api/internal/config"
+	"github.com/alexeykirinyuk/go-product-api/internal/database"
+	"github.com/alexeykirinyuk/go-product-api/internal/server"
+	"github.com/alexeykirinyuk/go-product-api/internal/tracer"
 )
 
 var (
@@ -57,7 +57,14 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed init postgres")
 	}
-	defer db.Close()
+	defer func() {
+		err := db.Close()
+		if err != nil {
+			log.Error().
+				Err(err).
+				Msg("Failed close db")
+		}
+	}()
 
 	*migration = false // todo: need to delete this line for homework-4
 	if *migration {
@@ -70,11 +77,20 @@ func main() {
 
 	tracing, err := tracer.NewTracer(&cfg)
 	if err != nil {
-		log.Error().Err(err).Msg("Failed init tracing")
+		log.Error().
+			Err(err).
+			Msg("Failed init tracing")
 
 		return
 	}
-	defer tracing.Close()
+
+	defer func() {
+		err := tracing.Close()
+
+		log.Error().
+			Err(err).
+			Msg("Failed close tracing")
+	}()
 
 	if err := server.NewGrpcServer(db, batchSize).Start(&cfg); err != nil {
 		log.Error().Err(err).Msg("Failed creating gRPC server")
