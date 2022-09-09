@@ -10,12 +10,13 @@ import (
 
 func (p *ProductAPI) ListProductsV1(
 	ctx context.Context,
-	_ *pb.ListProductsV1Request,
+	req *pb.ListProductsV1Request,
 ) (*pb.ListProductsV1Response, error) {
 	products, err := p.s.GetProducts(ctx)
 	if err != nil {
 		log.Error().
 			Err(err).
+			Interface("Req", req).
 			Msg("ListProductsV1 -- failed")
 
 		return nil, status.Error(codes.Internal, err.Error())
@@ -25,6 +26,10 @@ func (p *ProductAPI) ListProductsV1(
 	for _, p := range products {
 		res = append(res, toProtobufProduct(p))
 	}
+
+	log.Debug().
+		Interface("Req", req).
+		Msg("ListProductsV1 -- success")
 
 	return &pb.ListProductsV1Response{Products: res}, nil
 }

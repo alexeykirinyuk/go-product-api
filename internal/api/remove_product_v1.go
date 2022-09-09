@@ -19,6 +19,7 @@ func (p *ProductAPI) RemoveProductV1(
 		log.Debug().
 			Err(err).
 			Uint64("ProductID", req.GetProductId()).
+			Interface("Req", req).
 			Msg("RemoveProductV1 - product not found")
 
 		totalProductNotFound.Inc()
@@ -30,10 +31,16 @@ func (p *ProductAPI) RemoveProductV1(
 		log.Error().
 			Err(err).
 			Uint64("ProductID", req.GetProductId()).
+			Interface("Req", req).
 			Msg("RemoveProductV1 -- failed")
 
 		return nil, status.Error(codes.Internal, err.Error())
 	}
+
+	log.Debug().
+		Uint64("ProductID", req.GetProductId()).
+		Interface("Req", req).
+		Msg("RemoveProductV1 -- success")
 
 	return &pb.RemoveProductV1Response{Product: toProtobufProduct(prod)}, nil
 }

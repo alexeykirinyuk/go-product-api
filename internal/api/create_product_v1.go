@@ -18,28 +18,35 @@ func (p *ProductAPI) CreateProductV1(
 	if err := req.Validate(); err != nil {
 		log.Warn().
 			Err(err).
+			Interface("Req", req).
 			Msg("CreateProductV1 - invalid argument")
 
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
 	command := dto.CreateProductCommand{
-		Name:        req.Name,
-		Category:    req.Category,
-		Description: req.Description,
-		Brand:       req.Brand,
-		Cost:        req.Cost,
-		Currency:    enum.Currency(req.Currency),
+		Name:        req.GetName(),
+		Category:    req.GetCategory(),
+		Description: req.GetDescription(),
+		Brand:       req.GetBrand(),
+		Cost:        req.GetCost(),
+		Currency:    enum.Currency(req.GetCurrency()),
 	}
 
 	prod, err := p.s.CreateProduct(ctx, command)
 	if err != nil {
 		log.Warn().
 			Err(err).
+			Interface("Req", req).
 			Msg("CreateProductV1 -- failed")
 
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}
+
+	log.Debug().
+		Uint64("ProductID", prod.ID).
+		Interface("Req", req).
+		Msg("CreateProductV1 -- success")
 
 	return &pb.CreateProductV1Response{
 		Product: toProtobufProduct(prod),

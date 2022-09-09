@@ -18,17 +18,19 @@ func (p *ProductAPI) DescribeProductV1(
 	if err := req.Validate(); err != nil {
 		log.Error().
 			Err(err).
+			Interface("Req", req).
 			Msg("DescribeProductV1 - invalid argument")
 
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	product, err := p.s.GetProductById(ctx, req.ProductId)
+	product, err := p.s.GetProductById(ctx, req.GetProductId())
 
 	if errors.Is(err, internal_errors.ProductNotFound) {
 		log.Debug().
 			Err(err).
-			Uint64("ProductID", req.ProductId).
+			Uint64("ProductID", req.GetProductId()).
+			Interface("Req", req).
 			Msg("DescribeProductV1 - product not found")
 
 		totalProductNotFound.Inc()
@@ -39,11 +41,17 @@ func (p *ProductAPI) DescribeProductV1(
 	if err != nil {
 		log.Error().
 			Err(err).
-			Uint64("ProductID", req.ProductId).
+			Uint64("ProductID", req.GetProductId()).
+			Interface("Req", req).
 			Msg("DescribeProductV1 -- failed")
 
 		return nil, status.Error(codes.Internal, err.Error())
 	}
+
+	log.Debug().
+		Uint64("ProductID", req.GetProductId()).
+		Interface("Req", req).
+		Msg("CreateProductV1 -- success")
 
 	return &pb.DescribeProductV1Response{
 		Product: toProtobufProduct(product),
