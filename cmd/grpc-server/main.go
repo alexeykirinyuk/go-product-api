@@ -9,6 +9,7 @@ import (
 	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"reflect"
 
 	"github.com/alexeykirinyuk/go-product-api/internal/config"
 	"github.com/alexeykirinyuk/go-product-api/internal/server"
@@ -19,7 +20,17 @@ var (
 	batchSize uint = 2
 )
 
+type Person struct {
+}
+
 func main() {
+	per := int64(0)
+	sl2 := &per
+	sl3 := &sl2
+	sl4 := &sl3
+
+	fmt.Printf("type == %v\n", reflect.TypeOf(sl4))
+
 	if err := config.ReadConfigYML("config.yml"); err != nil {
 		log.Fatal().Err(err).Msg("Failed init configuration")
 	}
