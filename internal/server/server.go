@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/alexeykirinyuk/go-product-api/internal/repo/inmemory_repo"
-	"github.com/alexeykirinyuk/go-product-api/internal/service/product_service"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/inmemory_repo"
+	product_repository "github.com/alexeykirinyuk/go-product-api/internal/service/product/repo"
 	"net"
 	"net/http"
 	"os"
@@ -91,7 +92,12 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 	if err != nil {
 		return fmt.Errorf("failed to listen: %w", err)
 	}
-	defer l.Close()
+	defer func(l net.Listener) {
+		err := l.Close()
+		if err != nil {
+			log.Error().Err(err).Msg("net.Listener.Close() err")
+		}
+	}(l)
 
 	grpcServer := grpc.NewServer(
 		grpc.KeepaliveParams(keepalive.ServerParameters{
@@ -108,8 +114,10 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		)),
 	)
 
-	r := inmemory_repo.NewRepo()
-	productServ := product_service.New(r)
+	var _ product.Repo = inmemory_repo.NewRepo()
+	repo := product_repository.New(s.db)
+
+	productServ := product.New(repo)
 
 	pb.RegisterGoProductApiServiceServer(grpcServer, api.NewProductAPI(productServ))
 	grpc_prometheus.EnableHandlingTimeHistogram()

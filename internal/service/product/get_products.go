@@ -1,12 +1,12 @@
-package product_service
+package product
 
 import (
 	"context"
-	"github.com/alexeykirinyuk/go-product-api/internal/service/dto"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
 )
 
-func (s *ProductService) GetProducts(ctx context.Context) ([]dto.Product, error) {
-	products, err := s.repo.GetList(ctx)
+func (s *Service) GetProducts(ctx context.Context) ([]dto.Product, error) {
+	products, err := s.repo.List(ctx)
 	if err != nil {
 		return []dto.Product{}, err
 	}

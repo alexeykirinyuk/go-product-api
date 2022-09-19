@@ -1,11 +1,10 @@
-package product_service
+package product
 
 import (
-	"github.com/alexeykirinyuk/go-product-api/internal/service/dto"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/entity"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
 )
 
-func toProductDto(product entity.Product) dto.Product {
+func toProductDto(product Product) dto.Product {
 	return dto.Product{
 		ID:          product.ID,
 		Name:        product.Name,

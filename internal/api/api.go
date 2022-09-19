@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/alexeykirinyuk/go-product-api/internal/service/product_service"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 
@@ -17,9 +17,9 @@ var (
 
 type ProductAPI struct {
 	pb.UnimplementedGoProductApiServiceServer
-	s *product_service.ProductService
+	s *product.Service
 }
 
-func NewProductAPI(s *product_service.ProductService) *ProductAPI {
+func NewProductAPI(s *product.Service) *ProductAPI {
 	return &ProductAPI{s: s}
 }

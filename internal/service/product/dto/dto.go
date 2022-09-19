@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/enum"
+	vo "github.com/alexeykirinyuk/go-product-api/internal/service/value_objects"
 	"time"
 )
 
@@ -11,7 +11,7 @@ type CreateProductCommand struct {
 	Description string
 	Brand       string
 	Cost        float32
-	Currency    enum.Currency
+	Currency    vo.Currency
 }
 
 type Product struct {
@@ -21,6 +21,7 @@ type Product struct {
 	Description string
 	Brand       string
 	Cost        float32
-	Currency    enum.Currency
+	Currency    vo.Currency
 	Created     time.Time
+	Updated     time.Time
 }

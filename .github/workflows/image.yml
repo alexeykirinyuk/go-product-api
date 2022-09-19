@@ -10,7 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: docker.pkg.github.com/${{ github.repository }}
+      IMAGE_NAME: docker.pkg.github.com/${{ github.repo }}
       COMMIT_HASH: ${{ github.sha }}
     environment: default
 

@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 	"errors"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/internal_errors"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
 	pb "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc/codes"
@@ -15,16 +15,16 @@ func (p *ProductAPI) RemoveProductV1(
 	req *pb.RemoveProductV1Request,
 ) (*pb.RemoveProductV1Response, error) {
 	prod, err := p.s.DeleteProduct(ctx, req.GetProductId())
-	if errors.Is(err, internal_errors.ProductNotFound) {
+	if errors.Is(err, product.ProductNotFound) {
 		log.Debug().
 			Err(err).
 			Uint64("ProductID", req.GetProductId()).
 			Interface("Req", req).
-			Msg("RemoveProductV1 - product not found")
+			Msg("RemoveProductV1 - products not found")
 
 		totalProductNotFound.Inc()
 
-		return nil, status.Error(codes.NotFound, "product not found")
+		return nil, status.Error(codes.NotFound, "products not found")
 	}
 
 	if err != nil {

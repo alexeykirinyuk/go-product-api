@@ -179,7 +179,7 @@ func RegisterGoProductApiServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/DescribeProductV1", runtime.WithHTTPPathPattern("/v1/products/get"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/DescribeProductV1", runtime.WithHTTPPathPattern("/v1/product/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -202,7 +202,7 @@ func RegisterGoProductApiServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/CreateProductV1", runtime.WithHTTPPathPattern("/v1/products/create"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/CreateProductV1", runtime.WithHTTPPathPattern("/v1/product/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -225,7 +225,7 @@ func RegisterGoProductApiServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/ListProductsV1", runtime.WithHTTPPathPattern("/v1/products/list"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/ListProductsV1", runtime.WithHTTPPathPattern("/v1/product/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -248,7 +248,7 @@ func RegisterGoProductApiServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/RemoveProductV1", runtime.WithHTTPPathPattern("/v1/products/remove"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/RemoveProductV1", runtime.WithHTTPPathPattern("/v1/product/remove"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -310,7 +310,7 @@ func RegisterGoProductApiServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/DescribeProductV1", runtime.WithHTTPPathPattern("/v1/products/get"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/DescribeProductV1", runtime.WithHTTPPathPattern("/v1/product/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -330,7 +330,7 @@ func RegisterGoProductApiServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/CreateProductV1", runtime.WithHTTPPathPattern("/v1/products/create"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/CreateProductV1", runtime.WithHTTPPathPattern("/v1/product/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -350,7 +350,7 @@ func RegisterGoProductApiServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/ListProductsV1", runtime.WithHTTPPathPattern("/v1/products/list"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/ListProductsV1", runtime.WithHTTPPathPattern("/v1/product/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -370,7 +370,7 @@ func RegisterGoProductApiServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/RemoveProductV1", runtime.WithHTTPPathPattern("/v1/products/remove"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.go_product_api.v1.GoProductApiService/RemoveProductV1", runtime.WithHTTPPathPattern("/v1/product/remove"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,13 +390,13 @@ func RegisterGoProductApiServiceHandlerClient(ctx context.Context, mux *runtime.
 }
 
 var (
-	pattern_GoProductApiService_DescribeProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "products", "get"}, ""))
+	pattern_GoProductApiService_DescribeProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "product", "get"}, ""))
 
-	pattern_GoProductApiService_CreateProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "products", "create"}, ""))
+	pattern_GoProductApiService_CreateProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "product", "create"}, ""))
 
-	pattern_GoProductApiService_ListProductsV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "products", "list"}, ""))
+	pattern_GoProductApiService_ListProductsV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "product", "list"}, ""))
 
-	pattern_GoProductApiService_RemoveProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "products", "remove"}, ""))
+	pattern_GoProductApiService_RemoveProductV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "product", "remove"}, ""))
 )
 
 var (

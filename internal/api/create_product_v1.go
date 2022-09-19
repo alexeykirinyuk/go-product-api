@@ -2,8 +2,8 @@ package api
 
 import (
 	"context"
-	"github.com/alexeykirinyuk/go-product-api/internal/service/dto"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/enum"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
+	vo "github.com/alexeykirinyuk/go-product-api/internal/service/value_objects"
 	pb "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc/codes"
@@ -30,7 +30,7 @@ func (p *ProductAPI) CreateProductV1(
 		Description: req.GetDescription(),
 		Brand:       req.GetBrand(),
 		Cost:        req.GetCost(),
-		Currency:    enum.Currency(req.GetCurrency()),
+		Currency:    vo.Currency(req.GetCurrency()),
 	}
 
 	prod, err := p.s.CreateProduct(ctx, command)

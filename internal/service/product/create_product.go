@@ -1,17 +1,16 @@
-package product_service
+package product
 
 import (
 	"context"
-	"github.com/alexeykirinyuk/go-product-api/internal/service/dto"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/entity"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
 	"time"
 )
 
-func (s *ProductService) CreateProduct(
+func (s *Service) CreateProduct(
 	ctx context.Context,
 	productDto dto.CreateProductCommand,
 ) (dto.Product, error) {
-	product := entity.Product{
+	product := Product{
 		Name:        productDto.Name,
 		Category:    productDto.Category,
 		Description: productDto.Description,
@@ -21,7 +20,7 @@ func (s *ProductService) CreateProduct(
 		Created:     time.Now().UTC(),
 	}
 
-	if err := s.repo.Save(ctx, &product); err != nil {
+	if err := s.repo.Add(ctx, &product); err != nil {
 		return dto.Product{}, err
 	}
 

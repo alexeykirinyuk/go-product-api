@@ -2,12 +2,12 @@ package inmemory_repo
 
 import (
 	"context"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/entity"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
 	"sync"
 )
 
 type ProductRepository struct {
-	products map[uint64]entity.Product
+	products map[uint64]product.Product
 	nextID   uint64
 	mtx      sync.RWMutex
 }
@@ -15,13 +15,13 @@ type ProductRepository struct {
 // NewRepo returns ProductRepository struct
 func NewRepo() *ProductRepository {
 	return &ProductRepository{
-		products: map[uint64]entity.Product{},
+		products: map[uint64]product.Product{},
 		mtx:      sync.RWMutex{},
 		nextID:   1,
 	}
 }
 
-func (r *ProductRepository) Save(_ context.Context, product *entity.Product) error {
+func (r *ProductRepository) Add(_ context.Context, product *product.Product) error {
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
 
@@ -35,19 +35,23 @@ func (r *ProductRepository) Save(_ context.Context, product *entity.Product) err
 	return nil
 }
 
-func (r *ProductRepository) GetById(_ context.Context, productID uint64) (entity.Product, bool, error) {
+func (r *ProductRepository) Get(_ context.Context, productID uint64) (product.Product, error) {
 	r.mtx.RLock()
 	defer r.mtx.RUnlock()
 
-	product, ok := r.products[productID]
-	return product, ok, nil
+	p, ok := r.products[productID]
+	if !ok {
+		return product.Product{}, product.ProductNotFound
+	}
+
+	return p, nil
 }
 
-func (r *ProductRepository) GetList(_ context.Context) ([]entity.Product, error) {
+func (r *ProductRepository) List(_ context.Context) ([]product.Product, error) {
 	r.mtx.RLock()
 	defer r.mtx.RUnlock()
 
-	result := make([]entity.Product, 0, len(r.products))
+	result := make([]product.Product, 0, len(r.products))
 	for _, prod := range r.products {
 		result = append(result, prod)
 	}

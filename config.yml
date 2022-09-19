@@ -1,5 +1,5 @@
 project:
-  name: Ozon Code Platform Product API
+  name: Go Product API
   debug: true
   environment: development
 
@@ -32,11 +32,11 @@ status:
   versionPath: /version
 
 database:
-  host: postgres
+  host: localhost
   port: 5432
-  user: docker
-  password: docker
-  name: go_product_api
+  user: postgres
+  password: postgres
+  name: db
   sslmode: disable
   migrations: migrations
   driver: pgx

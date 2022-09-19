@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/alexeykirinyuk/go-product-api/internal/service/dto"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
 	pb "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

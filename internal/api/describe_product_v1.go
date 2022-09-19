@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 	"errors"
-	"github.com/alexeykirinyuk/go-product-api/internal/shared/internal_errors"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
 	pb "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc/codes"
@@ -24,18 +24,18 @@ func (p *ProductAPI) DescribeProductV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	product, err := p.s.GetProductById(ctx, req.GetProductId())
+	prod, err := p.s.GetProductById(ctx, req.GetProductId())
 
-	if errors.Is(err, internal_errors.ProductNotFound) {
+	if errors.Is(err, product.ProductNotFound) {
 		log.Debug().
 			Err(err).
 			Uint64("ProductID", req.GetProductId()).
 			Interface("Req", req).
-			Msg("DescribeProductV1 - product not found")
+			Msg("DescribeProductV1 - p not found")
 
 		totalProductNotFound.Inc()
 
-		return nil, status.Error(codes.NotFound, "product was not found")
+		return nil, status.Error(codes.NotFound, "p was not found")
 	}
 
 	if err != nil {
@@ -54,6 +54,6 @@ func (p *ProductAPI) DescribeProductV1(
 		Msg("CreateProductV1 -- success")
 
 	return &pb.DescribeProductV1Response{
-		Product: toProtobufProduct(product),
+		Product: toProtobufProduct(prod),
 	}, nil
 }

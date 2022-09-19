@@ -11,28 +11,28 @@ option go_package = "github.com/alexeykirinyuk/go-product-api/pkg/go-product-api
 service GoProductApiService {
   rpc DescribeProductV1(DescribeProductV1Request) returns (DescribeProductV1Response) {
     option (google.api.http) = {
-      post: "/v1/products/get",
+      post: "/v1/product/get",
       body: "*"
     };
   }
 
   rpc CreateProductV1(CreateProductV1Request) returns (CreateProductV1Response) {
     option (google.api.http) = {
-      post: "/v1/products/create",
+      post: "/v1/product/create",
       body: "*"
     };
   }
 
   rpc ListProductsV1(ListProductsV1Request) returns (ListProductsV1Response) {
     option (google.api.http) = {
-      post: "/v1/products/list",
+      post: "/v1/product/list",
       body: "*"
     };
   }
 
   rpc RemoveProductV1(RemoveProductV1Request) returns (RemoveProductV1Response) {
     option (google.api.http) = {
-      post: "/v1/products/remove",
+      post: "/v1/product/remove",
       body: "*"
     };
   }

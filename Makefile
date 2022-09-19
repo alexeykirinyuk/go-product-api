@@ -93,3 +93,16 @@ build-go: generate-go .build
 			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
 		" \
 		-o ./bin/grpc-server$(shell go env GOEXE) ./cmd/grpc-server/main.go
+
+.PHONY: psql
+psql:
+	docker rm -f "go-product-api-db"
+	docker run -p "5432:5432" -e "POSTGRES_USER=postgres" -e "POSTGRES_PASSWORD=postgres" --name "go-product-api-db" -e "POSTGRES_DB=db" -d postgres
+
+.PHONE: mig
+mig:
+	go run ./cmd/grpc-server/main.go --migration true
+
+.PHONY: psql-down
+psql-down:
+	docker rm -f "category-service-db"

@@ -1,19 +1,16 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
-	"github.com/pressly/goose"
-
+	"github.com/alexeykirinyuk/go-product-api/internal/service/database"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/database/migrations"
+	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	_ "github.com/jackc/pgx/v4"
-	_ "github.com/jackc/pgx/v4/stdlib"
-	_ "github.com/lib/pq"
-
 	"github.com/alexeykirinyuk/go-product-api/internal/config"
-	"github.com/alexeykirinyuk/go-product-api/internal/database"
 	"github.com/alexeykirinyuk/go-product-api/internal/server"
 	"github.com/alexeykirinyuk/go-product-api/internal/tracer"
 )
@@ -28,7 +25,7 @@ func main() {
 	}
 	cfg := config.GetConfigInstance()
 
-	migration := flag.Bool("migration", true, "Defines the migration start option")
+	migration := flag.Bool("migration", false, "Defines the migration start option")
 	flag.Parse()
 
 	log.Info().
@@ -53,7 +50,8 @@ func main() {
 		cfg.Database.SslMode,
 	)
 
-	db, err := database.NewPostgres(dsn, cfg.Database.Driver)
+	ctx := context.Background()
+	db, err := database.New(ctx, dsn)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed init postgres")
 	}
@@ -66,13 +64,16 @@ func main() {
 		}
 	}()
 
-	*migration = false // todo: need to delete this line for homework-4
 	if *migration {
-		if err = goose.Up(db.DB, cfg.Database.Migrations); err != nil {
+		goose.SetBaseFS(migrations.EmbedFS)
+		if err = goose.Up(db.DB, "."); err != nil {
 			log.Error().Err(err).Msg("Migration failed")
 
 			return
 		}
+
+		log.Info().Msg("Migration success")
+		return
 	}
 
 	tracing, err := tracer.NewTracer(&cfg)
