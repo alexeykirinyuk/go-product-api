@@ -1,8 +1,9 @@
 package vo
 
-type Currency string
+type Currency int16
 
 const (
-	CurrencyRub = Currency("RUB")
-	CurrencyUsd = Currency("USD")
+	_ Currency = iota
+	CurrencyRub
+	CurrencyUsd
 )
