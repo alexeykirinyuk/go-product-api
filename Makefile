@@ -106,3 +106,7 @@ mig:
 .PHONY: psql-down
 psql-down:
 	docker rm -f "category-service-db"
+
+.PHONE: ui
+ui:
+	grpcui --plaintext localhost:8082

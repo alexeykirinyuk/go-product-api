@@ -5,8 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/alexeykirinyuk/go-product-api/internal/service/product"
-	"github.com/alexeykirinyuk/go-product-api/internal/service/product/inmemory_repo"
-	product_repository "github.com/alexeykirinyuk/go-product-api/internal/service/product/repo"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/repo"
 	"net"
 	"net/http"
 	"os"
@@ -114,10 +113,10 @@ func (s *GrpcServer) Start(cfg *config.Config) error {
 		)),
 	)
 
-	var _ product.Repo = inmemory_repo.NewRepo()
-	repo := product_repository.New(s.db)
+	productRepo := repo.NewProductRepo(s.db)
+	eventsRepo := repo.NewEventRepo(s.db)
 
-	productServ := product.New(repo)
+	productServ := product.NewService(productRepo, eventsRepo, s.db)
 
 	pb.RegisterGoProductApiServiceServer(grpcServer, api.NewProductAPI(productServ))
 	grpc_prometheus.EnableHandlingTimeHistogram()

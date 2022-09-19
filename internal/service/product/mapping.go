@@ -2,9 +2,10 @@ package product
 
 import (
 	"github.com/alexeykirinyuk/go-product-api/internal/service/product/dto"
+	"github.com/alexeykirinyuk/go-product-api/internal/service/product/model"
 )
 
-func toProductDto(product Product) dto.Product {
+func toProductDto(product model.Product) dto.Product {
 	return dto.Product{
 		ID:          product.ID,
 		Name:        product.Name,

@@ -1,4 +1,4 @@
-package product
+package model
 
 import (
 	vo "github.com/alexeykirinyuk/go-product-api/internal/service/value_objects"

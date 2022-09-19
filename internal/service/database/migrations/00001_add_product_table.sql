@@ -8,8 +8,8 @@ CREATE TABLE product
     brand       TEXT             NOT NULL,
     cost        DOUBLE PRECISION NOT NULL,
     currency    SMALLINT         NOT NULL,
-    created     TIMESTAMPTZ      NOT NULL,
-    updated     TIMESTAMPTZ      NOT NULL
+    created     TIMESTAMP        NOT NULL,
+    updated     TIMESTAMP        NOT NULL
 );
 
 -- +goose Down

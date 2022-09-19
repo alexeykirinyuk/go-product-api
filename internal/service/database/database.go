@@ -16,6 +16,10 @@ func StatementBuilder() sq.StatementBuilderType {
 	return st
 }
 
+type GetContexter interface {
+	GetContext(context.Context, interface{}, string, ...interface{}) error
+}
+
 // New returns DB
 func New(ctx context.Context, dsn string) (*sqlx.DB, error) {
 	db, err := sqlx.Open("pgx", dsn)

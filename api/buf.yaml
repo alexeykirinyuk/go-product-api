@@ -21,7 +21,7 @@ version: v1
 # This affects the behavior of buf build, as well as the build behavior
 # for source lint and breaking change rules.
 #
-# If you want to build all files in your repo, this section can be
+# If you want to build all files in your product_repository, this section can be
 # omitted.
 build:
 

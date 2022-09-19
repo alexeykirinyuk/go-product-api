@@ -10,7 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: docker.pkg.github.com/${{ github.repo }}
+      IMAGE_NAME: docker.pkg.github.com/${{ github.product_repository }}
       COMMIT_HASH: ${{ github.sha }}
     environment: default
 
@@ -44,5 +44,5 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           push: true
-          # tags: <org-name>/<repo-name>/<app-name>:${{ env.IMAGE_TAG }}
+          # tags: <org-name>/<product_repository-name>/<app-name>:${{ env.IMAGE_TAG }}
           tags: ghcr.io/${{ github.repository_owner }}/go-product-api/server:${{ env.IMAGE_TAG }}
